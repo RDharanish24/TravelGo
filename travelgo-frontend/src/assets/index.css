@@ -1,0 +1,32 @@
+/* Import Tailwind base styles, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Base Styles */
+@layer base {
+  body {
+    /* Ensures fonts render smoothly and applies your default background/text colors */
+    @apply antialiased text-gray-900 bg-slate-50;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  /* Utility class to hide scrollbars while keeping functionality.
+    Perfect for the horizontal scrolling tabs in your SearchBar and SeatMap.
+  */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+}
+
+/* Note: In your original file, you had manual @keyframes for animations.
+  Since we are using framer-motion in this new structure, those are no 
+  longer needed here, keeping your CSS file incredibly clean and lightweight!
+*/
