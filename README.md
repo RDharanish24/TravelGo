@@ -69,7 +69,12 @@ TravelGO/
 │   │   │   ├── Home.jsx
 │   │   │   ├── Auth.jsx
 │   │   │   ├── SearchResults.jsx
+│   │   │   ├── BusResults.jsx
+│   │   │   ├── FlightResults.jsx
+│   │   │   ├── HotelResults.jsx
+│   │   │   ├── TrainResults.jsx
 │   │   │   ├── BookingFlow.jsx
+│   │   │   ├── BookingSummary.jsx
 │   │   │   └── Dashboard.jsx
 │   │   ├── components/            # Reusable components
 │   │   │   ├── common/
