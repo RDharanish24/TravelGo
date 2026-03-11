@@ -11,6 +11,11 @@ import Toast from './components/common/Toast';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import SearchResults from './pages/SearchResults';
+import FlightResults from './pages/FlightResults';
+import TrainResults from './pages/TrainResults';
+import BusResults from './pages/BusResults';
+import HotelResults from './pages/HotelResults';
+import BookingSummary from './pages/BookingSummary';
 import BookingFlow from './pages/BookingFlow';
 import Dashboard from './pages/Dashboard';
 
@@ -22,25 +27,30 @@ import Dashboard from './pages/Dashboard';
  */
 const AnimatedRoutes = () => {
   const location = useLocation();
-  
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Landing Page */}
         <Route path="/" element={<Home />} />
-        
+
         {/* Authentication */}
         <Route path="/login" element={<Auth type="login" />} />
         <Route path="/register" element={<Auth type="register" />} />
-        
+
         {/* Booking Process */}
         <Route path="/results" element={<SearchResults />} />
-        
+        <Route path="/results/flight" element={<FlightResults />} />
+        <Route path="/results/train" element={<TrainResults />} />
+        <Route path="/results/bus" element={<BusResults />} />
+        <Route path="/results/hotel" element={<HotelResults />} />
+        <Route path="/booking-summary" element={<BookingSummary />} />
+
         {/* The '/*' allows BookingFlow to handle its own internal 
           sub-routes like /book/seats and /book/payment 
         */}
         <Route path="/book/*" element={<BookingFlow />} />
-        
+
         {/* User Profile */}
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
@@ -58,7 +68,7 @@ export default function App() {
         {/* Persistent UI Elements */}
         <Navbar />
         <Toast />
-        
+
         {/* Main Content Area */}
         <main className="flex-grow">
           <AnimatedRoutes />

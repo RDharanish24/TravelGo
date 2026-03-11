@@ -6,13 +6,24 @@ const BookingContext = createContext();
 
 export const BookingProvider = ({ children }) => {
   // --- SEARCH STATE ---
-  const [searchParams, setSearchParams] = useState({ type: 'flight', source: '', dest: '', date: '' });
+  const [searchParams, setSearchParams] = useState({
+    type: 'flight',
+    source: '',
+    dest: '',
+    date: '',
+    passengers: 1,
+    checkIn: '',
+    checkOut: '',
+    rooms: 1,
+    guests: 1,
+    budget: ''
+  });
   const [searchResults, setSearchResults] = useState([]);
-  
+
   // --- ACTIVE BOOKING FLOW STATE ---
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  
+
   // --- USER DASHBOARD STATE (Persisted) ---
   const [bookings, setBookings] = useState(() => {
     try {
@@ -43,16 +54,7 @@ export const BookingProvider = ({ children }) => {
   const handleSearch = (params) => {
     setSearchParams(params);
     const data = MOCK_DATA[params.type] || [];
-    
-    // Filter the mock data based on the user's input (case-insensitive)
-    const filtered = data.filter(item => {
-      const matchSource = params.source ? item.source.toLowerCase().includes(params.source.toLowerCase()) : true;
-      const matchDest = params.dest ? item.dest.toLowerCase().includes(params.dest.toLowerCase()) : true;
-      return matchSource && matchDest;
-    });
-    
-    // Fallback to showing all data for that category if no exact match is found (useful for demo purposes)
-    setSearchResults(filtered.length > 0 ? filtered : data);
+    setSearchResults(data);
   };
 
   const confirmBooking = (newBooking) => {

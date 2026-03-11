@@ -30,16 +30,16 @@ export default function Dashboard() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="min-h-[calc(100vh-64px)] bg-slate-50 py-10 px-4 sm:px-6 lg:px-8"
     >
       <div className="max-w-5xl mx-auto">
-        
+
         {/* Welcome Header Card */}
-        <motion.div 
+        <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl mb-10 flex items-center justify-between relative overflow-hidden"
@@ -65,7 +65,7 @@ export default function Dashboard() {
         </div>
 
         {/* Bookings List */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -73,51 +73,55 @@ export default function Dashboard() {
         >
           {bookings.length > 0 ? (
             bookings.map((booking) => (
-              <motion.div 
-                key={booking.id} 
+              <motion.div
+                key={booking.id}
                 variants={itemVariants}
                 className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow"
               >
                 {/* Visual Accent Bar */}
                 <div className="w-full md:w-2 bg-blue-600"></div>
-                
+
                 <div className="p-6 flex-1 flex flex-col md:flex-row justify-between items-start md:items-center">
                   <div className="mb-4 md:mb-0">
                     <div className="flex items-center space-x-3 mb-3">
                       <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-black rounded-full tracking-wider uppercase">
-                        {booking.status}
+                        Confirmed
                       </span>
                       <span className="text-xs text-gray-400 font-mono font-bold tracking-tighter">ID: {booking.id}</span>
                     </div>
-                    
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{booking.item.name}</h3>
-                    
-                    <div className="flex items-center text-gray-600 font-bold mb-3">
-                      <MapPin className="h-4 w-4 mr-1 text-blue-500" />
-                      {booking.item.source} 
-                      <ChevronRight className="inline h-4 w-4 text-gray-300 mx-1" /> 
-                      {booking.item.dest}
-                    </div>
+
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">{booking.itemName || booking.item?.name}</h3>
+
+                    {booking.details?.from && booking.details?.to && (
+                      <div className="flex items-center text-gray-600 font-bold mb-3">
+                        <MapPin className="h-4 w-4 mr-1 text-blue-500" />
+                        {booking.details.from}
+                        <ChevronRight className="inline h-4 w-4 text-gray-300 mx-1" />
+                        {booking.details.to}
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                       <div className="flex items-center bg-slate-50 px-3 py-1 rounded-lg">
                         <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                        {booking.date}
+                        {booking.type === 'hotel'
+                          ? `${booking.details?.checkIn} to ${booking.details?.checkOut}`
+                          : booking.details?.travelDate}
                       </div>
                       <div className="flex items-center bg-slate-50 px-3 py-1 rounded-lg">
                         <User className="h-4 w-4 mr-2 text-gray-400" />
-                        {booking.seats.length} {booking.type === 'hotel' ? 'Rooms' : 'Seats'}: {booking.seats.join(', ')}
+                        {booking.type === 'hotel' ? `${booking.details?.rooms} Rooms` : 'Confirmed'}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-start md:items-end w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
                     <div className="text-xs text-gray-400 uppercase font-bold tracking-widest mb-1">Amount Paid</div>
-                    <div className="text-2xl font-black text-gray-900 mb-4">₹{booking.totalPrice}</div>
-                    
-                    <Button 
-                      variant="danger" 
-                      size="sm" 
+                    <div className="text-2xl font-black text-gray-900 mb-4">₹{(booking.amount || booking.totalPrice || 0).toLocaleString()}</div>
+
+                    <Button
+                      variant="danger"
+                      size="sm"
                       icon={Trash2}
                       onClick={() => cancelBooking(booking.id)}
                     >
@@ -129,8 +133,8 @@ export default function Dashboard() {
             ))
           ) : (
             // Empty State
-            <motion.div 
-              initial={{ opacity: 0 }} 
+            <motion.div
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="bg-white rounded-3xl border border-dashed border-gray-300 p-16 text-center"
             >
